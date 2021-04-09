@@ -8,7 +8,7 @@ namespace Second_Task
     public enum TypeDictionary { ANGLO_UKR = 1,UKR_ANGLO};
     interface IDictionary
     {
-        public void AddWord(string word,List<string> words);
+        public void AddWord(string word,string words);
         public void ChangeWord(string word);
         public void RemoveWord(string word);
         public void SearchTranslate(string word);
@@ -31,10 +31,16 @@ namespace Second_Task
                 
         //    }
         //}
-
-        public void AddWord(string word, List<string> words)
+        public void AddWord(string word, string words)
         {
-            dictionary.Add(word, words);
+            if(dictionary.ContainsKey(word))
+            {
+                dictionary[word].Add(words); // add translate
+            }
+            else
+            {
+                dictionary.Add(word, new List<string> { words });
+            }
         }
 
         public void ChangeWord(string word)

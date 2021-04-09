@@ -6,7 +6,8 @@ namespace Second_Task
     {
         static void Main(string[] args)
         {
-
+            Dict dict = new Dict(TypeDictionary.UKR_ANGLO);
+            dict.AddWord("Ніс", "Nose");
         }
     }
 }
