@@ -8,6 +8,10 @@ namespace Second_Task
         {
             Dict dict = new Dict(TypeDictionary.UKR_ANGLO);
             dict.AddWord("Ніс", "Nose");
+            foreach (var item in dict.)
+            {
+
+            }
         }
     }
 }
