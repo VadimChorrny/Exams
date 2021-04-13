@@ -12,11 +12,12 @@ namespace SerializeLibrary
         {
             using (FileStream fs = new FileStream(path,FileMode.OpenOrCreate))
             {
-                string json = JsonSerializer.Serialize<Object>(obj);
-                Console.WriteLine(json);
+                string json = JsonSerializer.Serialize<T>(obj);
+                Console.WriteLine($"[JSON] Serialization has been successfully!\n\nOUTPUT\n\n{json}\n");
                 T res = (T)JsonSerializer.Deserialize<T>(json);
-                Console.WriteLine(res);
+                Console.WriteLine($"[JSON] Deserialization has been successfully!\n\nOUTPUT\n\n{res}");
             }
         }
+
     }
 }

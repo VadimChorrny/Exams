@@ -4,7 +4,7 @@ using SerializeLibrary;
 namespace Four_Task
 {
     [Serializable]
-    class Persone
+    public class Persone
     {
         public string Name { get; set; }
         public int Age { get; set; }
@@ -14,7 +14,7 @@ namespace Four_Task
         {
             return $"Name: {Name},\n" +
                 $"Age: {Age},\n" +
-                $"Location: {Location}"+
+                $"Location: {Location}" +
                 $"Hobby: {Hobby}";
         }
     }
@@ -35,8 +35,12 @@ namespace Four_Task
             //binSerialize.DeserializeObject("test.dat", persone);
 
             JSONSer ser = new SerializeLibrary.JSONSer();
-            ser.SerializeJSON("test1.dat", persone);
-            
+            ser.SerializeJSON("persone.json", persone); 
+
+            //XMLSer ser = new SerializeLibrary.XMLSer();
+            //ser.XMLSerialize("test_1.xml", persone);
+            //ser.XMLDeserialize("test_1.xml", persone);
+
         }
     }
 }
