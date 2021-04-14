@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
+using System.Linq;
 
 namespace Third_Task
 {
@@ -30,13 +31,20 @@ namespace Third_Task
             }
         }
         public DateTime Date { get; set; } = new DateTime();
-        public Users(string log, string pass, DateTime time)
+        public uint Score { get; set; } = 0;
+        public Users(string log, string pass, DateTime time, uint score)
         {
             this.Login = log;
             this.Password = pass;
             this.Date = time;
+            this.Score = score;
         }
     }
+    class AdminPanel
+    {
+
+    }
+
 
     class Resourse
     {
@@ -65,9 +73,13 @@ namespace Third_Task
                     throw new Exception("Error! Password is Null!");
             }
         }
-        public uint Score { get; set; }
-
-        public List<QuestionData> quiz { get; set; } = new List<QuestionData>();
+        public List<QuestionData> quiz = new List<QuestionData>()
+        {
+            new QuestionData(1,"1+1",new string[] {"2", "3"},0),
+            new QuestionData(3,"2+2 =",new string[] {"4", "3"},0),
+            new QuestionData(4,"2+1 = ",new string[] {"5", "3"},1),
+            new QuestionData(6,"5-3",new string[] {"3","2"},1)
+        };
         public List<Users> users = new List<Users>();
         public DateTime date = new DateTime();
         public Users current;
@@ -81,6 +93,7 @@ namespace Third_Task
                 if (item.Login == login && item.Password == pass)
                 {
                     current = item;
+                    Console.WriteLine("User sign in!");
                     return;
                 }
             }
@@ -89,44 +102,54 @@ namespace Third_Task
         public void Registration(Users user)
         {
             users.Add(user);
+            Console.WriteLine("new user has been registration!");
         }
 
         // Work with Victorina
 
         public void CreateQuiz()
         {
-            //string json = File.ReadAllText("data.json");
+            //string json = File.ReadAllText("MathQuiz.json");
             //JsonSerializerOptions options = new JsonSerializerOptions();
             //options.PropertyNameCaseInsensitive = true;
             //var moduleData = System.Text.Json.JsonSerializer.Deserialize<ModuleData>(json, options);
-
+            Console.WriteLine("___________ready");
             foreach (var item in quiz)
             {
-                for (int i = 0; i < quiz.Count; i++)
+                Console.WriteLine("we in cycle");
+                Console.WriteLine(item.Question);
+                for (int i = 0; i < item.Answers.Length; i++)
                 {
-                    Console.WriteLine(item.Question[i]);
-                    Console.WriteLine(item.Answers);
-                    int tmp = Convert.ToInt32(Console.ReadLine());
-                    if (tmp == item.CorrectAnswer)
+                    Console.WriteLine(item.Answers[i]);
+                }
+                int tmp = Convert.ToInt32(Console.ReadLine());
+                if (tmp == item.CorrectAnswer)
+                {
+                    foreach (var u in users)
                     {
-                        Score++;
+                        u.Score++;
                     }
-                    else
-                    {
-                        Console.WriteLine("Hueta answer!");
-                        return;
-                    }
+                }
+                else
+                {
+                    Console.WriteLine("false answer!");
+                    return;
                 }
             }
 
         }
 
-
-
         public void TopUsers()
         {
+            var res = (from e in users
+                       orderby e.Score
+                       select e
+                       );
             Console.WriteLine("______Top Users");
-            
+            foreach (var item in res)
+            {
+                Console.WriteLine(item.Score);
+            }
         }
 
         // Menu
@@ -141,7 +164,15 @@ namespace Third_Task
                 action = Convert.ToInt32(Console.ReadLine());
                 if (action == 1)
                 {
-                    //CreateVictorine(TypeQuestion.Math);
+                    CreateQuiz();
+                }
+                if (action == 2)
+                {
+                    Console.WriteLine("exit dont worked!!!");
+                }
+                else
+                {
+                    Console.WriteLine("nepravilno");
                 }
 
             } while (true);
